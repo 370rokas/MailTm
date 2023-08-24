@@ -1,4 +1,3 @@
-import json
 import time
 import traceback
 from threading import Thread
@@ -32,7 +31,6 @@ class Listen:
             time.sleep(15)
             return self.message_list(self)
 
-
     def message(self, idx):
         try:
             url = "https://api.mail.tm/messages/" + idx
@@ -44,8 +42,7 @@ class Listen:
         except requests.exceptions.HTTPError as e:
             traceback.print_exception(e)
             time.sleep(15)
-            return self.message(self, idx)
-
+            return self.message(idx)
 
     def run(self):
         while self.listen:
