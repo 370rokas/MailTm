@@ -1,27 +1,37 @@
 import json
 import time
+import traceback
 from threading import Thread
+
+import requests.exceptions
+
 
 class Listen:
     listen = False
     message_ids = []
 
     def message_list(self):
-        url = "https://api.mail.tm/messages"
-        headers = { 'Authorization': 'Bearer ' + self.token }
-        response = self.session.get(url, headers=headers)
+        try:
+            url = "https://api.mail.tm/messages"
+            headers = {'Authorization': 'Bearer ' + self.token}
+            response = self.session.get(url, headers=headers)
 
-        if response.status_code in [429]:
-            print("Getting message lists returned 429.")
-            return []
-        else:
-            response.raise_for_status()
-        
-        data = response.json()
-        return  [
-                    msg for i, msg in enumerate(data['hydra:member']) 
-                        if data['hydra:member'][i]['id'] not in self.message_ids
-                ]
+            if response.status_code in [429]:
+                print("Getting message lists returned 429.")
+                return []
+            else:
+                response.raise_for_status()
+
+            data = response.json()
+            return [
+                msg for i, msg in enumerate(data['hydra:member'])
+                if data['hydra:member'][i]['id'] not in self.message_ids
+            ]
+        except requests.exceptions.HTTPError as e:
+            traceback.print_exception(e)
+            time.sleep(15)
+            return self.message_list(self)
+
 
     def message(self, idx):
         url = "https://api.mail.tm/messages/" + idx
