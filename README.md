@@ -9,13 +9,13 @@ MailTm is a free temporary mail service, This library is useful for automation t
 Windows:
 
 ```
-pip install MailTm
+pip install git+https://github.com/370rokas/MailTm.git#egg=mailtm
 ```
 
 Linux/Mac OS:
 
 ```
-pip3 install MailTm
+pip3 install git+https://github.com/370rokas/MailTm.git#egg=mailtm
 ```
 
 ## Example

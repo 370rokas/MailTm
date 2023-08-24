@@ -34,11 +34,18 @@ class Listen:
 
 
     def message(self, idx):
-        url = "https://api.mail.tm/messages/" + idx
-        headers = { 'Authorization': 'Bearer ' + self.token }
-        response = self.session.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()
+        try:
+            url = "https://api.mail.tm/messages/" + idx
+            headers = { 'Authorization': 'Bearer ' + self.token }
+            response = self.session.get(url, headers=headers)
+            response.raise_for_status()
+            return response.json()
+
+        except requests.exceptions.HTTPError as e:
+            traceback.print_exception(e)
+            time.sleep(15)
+            return self.message(self, idx)
+
 
     def run(self):
         while self.listen:

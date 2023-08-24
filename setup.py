@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="MailTm",
-    version="0.0.81",
+    version="0.0.82",
     author="MainSilent, 370rokas",
     description="Fork of MailTM",
     long_description=long_description,
