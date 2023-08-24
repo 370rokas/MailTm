@@ -10,7 +10,12 @@ class Listen:
         url = "https://api.mail.tm/messages"
         headers = { 'Authorization': 'Bearer ' + self.token }
         response = self.session.get(url, headers=headers)
-        response.raise_for_status()
+
+        if response.status_code in [429]:
+            print("Getting message lists returned 429.")
+            return []
+        else:
+            response.raise_for_status()
         
         data = response.json()
         return  [
